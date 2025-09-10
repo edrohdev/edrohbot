@@ -3,10 +3,10 @@
   "/favicon.ico/route": "/favicon.ico",
   "/about/page": "/about",
   "/all-articles/page": "/all-articles",
-  "/events/page": "/events",
   "/home/page": "/home",
-  "/search/page": "/search",
   "/page": "/",
+  "/events/page": "/events",
+  "/search/page": "/search",
   "/studio/[[...tool]]/page": "/studio/[[...tool]]",
   "/posts/[id]/page": "/posts/[id]"
 }

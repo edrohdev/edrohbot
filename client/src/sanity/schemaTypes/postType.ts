@@ -78,30 +78,6 @@ export const postType = defineType({
           type: "image",
           options: { hotspot: true },
         },
-        {
-          type: "code",
-          title: "Code Snippet",
-          options: {
-            language: "javascript",
-            theme: "monokai",
-          },
-        },
-        {
-          type: "youtube",
-          title: "YouTube Video",
-        },
-        {
-          type: "vimeo",
-          title: "Vimeo Video",
-        },
-        {
-          type: "warning",
-          title: "Warning",
-        },
-        {
-          type: "tip",
-          title: "Tip",
-        },
       ],
     }),
     defineField({
