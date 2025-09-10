@@ -21,6 +21,8 @@
 /out/
 /client/.next/
 /client/.next/*
+/client/.sanity/
+/client/.sanity/*
 
 # production
 /build
