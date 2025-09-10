@@ -1,5 +1,12 @@
 {
   "/_not-found/page": "/_not-found",
   "/favicon.ico/route": "/favicon.ico",
-  "/page": "/"
+  "/about/page": "/about",
+  "/all-articles/page": "/all-articles",
+  "/events/page": "/events",
+  "/home/page": "/home",
+  "/search/page": "/search",
+  "/page": "/",
+  "/studio/[[...tool]]/page": "/studio/[[...tool]]",
+  "/posts/[id]/page": "/posts/[id]"
 }

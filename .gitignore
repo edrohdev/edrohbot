@@ -19,6 +19,8 @@
 /.next/
 /.open-next/
 /out/
+/client/.next/
+/client/.next/*
 
 # production
 /build

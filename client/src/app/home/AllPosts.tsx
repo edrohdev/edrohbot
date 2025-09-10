@@ -1,8 +1,8 @@
-import postsData from "../../data/posts/posts.json";
+import { getRegularPosts } from "../../sanity/lib/posts";
 import PostCard from "../../components/PostCard";
 
-export default function AllPosts() {
-  const allArticles = postsData.filter((post) => post.featuredStatus === 0);
+export default async function AllPosts() {
+  const allArticles = await getRegularPosts();
 
   return (
     <section className="pt-8 border-t border-gray-600">
@@ -17,7 +17,7 @@ export default function AllPosts() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {allArticles.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post._id} post={post} />
         ))}
       </div>
     </section>

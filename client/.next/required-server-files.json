@@ -98,7 +98,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/Users/edwardroh/Coding/media/robotics-blog/website/client",
+    "outputFileTracingRoot": "/Users/edwardroh/Coding/robotics/edroh_bot/website/client",
     "experimental": {
       "useSkewCookie": false,
       "cacheLife": {
@@ -287,10 +287,10 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "/Users/edwardroh/Coding/media/robotics-blog/website/client"
+      "root": "/Users/edwardroh/Coding/robotics/edroh_bot/website/client"
     }
   },
-  "appDir": "/Users/edwardroh/Coding/media/robotics-blog/website/client",
+  "appDir": "/Users/edwardroh/Coding/robotics/edroh_bot/website/client",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",
@@ -300,6 +300,8 @@
     ".next/server/functions-config-manifest.json",
     ".next/server/middleware-manifest.json",
     ".next/server/middleware-build-manifest.js",
+    ".next/server/middleware-react-loadable-manifest.js",
+    ".next/react-loadable-manifest.json",
     ".next/server/app-paths-manifest.json",
     ".next/app-path-routes-manifest.json",
     ".next/app-build-manifest.json",
