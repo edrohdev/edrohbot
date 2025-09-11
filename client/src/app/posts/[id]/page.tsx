@@ -3,6 +3,75 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import LatestPosts from "../../../components/LatestPosts";
+import { PortableText } from "@portabletext/react";
+import Image from "next/image";
+
+const components = {
+  types: {
+    image: ({ value }: { value: { asset: { url: string }; alt?: string } }) => (
+      <Image
+        src={value.asset.url}
+        alt={value.alt || " "}
+        width={500}
+        height={300}
+      />
+    ),
+  },
+  marks: {
+    link: ({
+      children,
+      value,
+    }: {
+      children: React.ReactNode;
+      value?: { href: string };
+    }) => {
+      const rel =
+        value && !value.href.startsWith("/")
+          ? "noreferrer noopener"
+          : undefined;
+      return (
+        <a href={value?.href || "#"} rel={rel}>
+          {children}
+        </a>
+      );
+    },
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <strong className="font-bold">{children}</strong>
+    ),
+    em: ({ children }: { children?: React.ReactNode }) => (
+      <em className="italic">{children}</em>
+    ),
+  },
+  block: {
+    h1: ({ children }: { children?: React.ReactNode }) => (
+      <h1 className="text-2xl font-bold">{children}</h1>
+    ),
+    h2: ({ children }: { children?: React.ReactNode }) => (
+      <h2 className="text-xl font-semibold">{children}</h2>
+    ),
+    blockquote: ({ children }: { children?: React.ReactNode }) => (
+      <blockquote className="border-l-4 border-yellow-500 pl-4 italic">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }: { children?: React.ReactNode }) => (
+      <ul className="list-disc pl-5">{children}</ul>
+    ),
+    number: ({ children }: { children?: React.ReactNode }) => (
+      <ol className="list-decimal pl-5">{children}</ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }: { children?: React.ReactNode }) => (
+      <li className="mb-1">{children}</li>
+    ),
+    number: ({ children }: { children?: React.ReactNode }) => (
+      <li className="mb-1">{children}</li>
+    ),
+  },
+};
 
 interface PageProps {
   params: Promise<{
@@ -13,6 +82,7 @@ interface PageProps {
 export default async function PostPage({ params }: PageProps) {
   const { id } = await params;
   const post = await getPostBySlug(id);
+  console.log("🚀 ~ post:", post);
 
   if (!post) {
     notFound();
@@ -88,11 +158,11 @@ export default async function PostPage({ params }: PageProps) {
 
               {/* Article content */}
               <article className="text-gray-300 leading-relaxed space-y-6 text-lg">
-                {post.content.split("\n\n").map((paragraph, index) => (
-                  <p key={index} className="leading-8">
-                    {paragraph}
-                  </p>
-                ))}
+                {typeof post.content === "string" ? (
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                ) : (
+                  <PortableText value={post.content} components={components} />
+                )}
               </article>
 
               {/* Back to home button */}
