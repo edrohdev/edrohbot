@@ -9,6 +9,25 @@ export interface Post {
   author: string;
   readTime: string;
   image: string;
+  mainImage?: {
+    _type: "image";
+    asset: {
+      _ref: string;
+      _type: "reference";
+    };
+    hotspot?: {
+      x: number;
+      y: number;
+      height: number;
+      width: number;
+    };
+    crop?: {
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
+    };
+  };
   content: string;
   featuredStatus: number;
   slug: {
@@ -26,6 +45,7 @@ const ALL_POSTS_QUERY = `*[_type == "post"] | order(datetime desc) {
   author,
   readTime,
   image,
+  mainImage,
   content,
   featuredStatus,
   slug
@@ -41,6 +61,7 @@ const POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug][0] {
   author,
   readTime,
   image,
+  mainImage,
   content,
   featuredStatus,
   slug
@@ -56,6 +77,7 @@ const POSTS_BY_FEATURED_STATUS_QUERY = `*[_type == "post" && featuredStatus == $
   author,
   readTime,
   image,
+  mainImage,
   content,
   featuredStatus,
   slug
@@ -98,6 +120,7 @@ export async function getLatestPosts(limit: number = 8): Promise<Post[]> {
     author,
     readTime,
     image,
+    mainImage,
     content,
     featuredStatus,
     slug
@@ -121,6 +144,7 @@ const SEARCH_POSTS_QUERY = `*[_type == "post" && (
   author,
   readTime,
   image,
+  mainImage,
   content,
   featuredStatus,
   slug,

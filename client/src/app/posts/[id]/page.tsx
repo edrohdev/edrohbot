@@ -5,17 +5,45 @@ import Navbar from "../../../components/Navbar";
 import LatestPosts from "../../../components/LatestPosts";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
+import { urlFor } from "../../../sanity/lib/image";
+
+interface SanityImageValue {
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
+  alt?: string;
+  hotspot?: {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+  };
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+}
 
 const components = {
   types: {
-    image: ({ value }: { value: { asset: { url: string }; alt?: string } }) => (
-      <Image
-        src={value.asset.url}
-        alt={value.alt || " "}
-        width={500}
-        height={300}
-      />
-    ),
+    image: ({ value }: { value: SanityImageValue }) => {
+      const imageUrl = urlFor(value)?.url();
+      if (!imageUrl) return null;
+
+      return (
+        <Image
+          src={imageUrl}
+          alt={value.alt || "Article image"}
+          width={800}
+          height={400}
+          className="rounded-lg my-6"
+        />
+      );
+    },
   },
   marks: {
     link: ({
@@ -125,12 +153,24 @@ export default async function PostPage({ params }: PageProps) {
             <div className="lg:col-span-2">
               {/* Header section with gradient background */}
               <header className="relative mb-8">
-                <div className="h-72 bg-gradient-to-br from-yellow-500 to-yellow-300 relative overflow-hidden rounded-xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-yellow-500/10"></div>
-                  <div className="relative h-full flex items-center justify-center">
-                    <span className="text-6xl opacity-80">{post.image}</span>
+                {post.mainImage ? (
+                  <div className="h-72 relative overflow-hidden rounded-xl">
+                    <Image
+                      src={urlFor(post.mainImage)?.url() || ""}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-yellow-500/10"></div>
                   </div>
-                </div>
+                ) : (
+                  <div className="h-72 bg-gradient-to-br from-yellow-500 to-yellow-300 relative overflow-hidden rounded-xl">
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-yellow-500/10"></div>
+                    <div className="relative h-full flex items-center justify-center">
+                      <span className="text-6xl opacity-80">{post.image}</span>
+                    </div>
+                  </div>
+                )}
               </header>
 
               {/* Article metadata */}
