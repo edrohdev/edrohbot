@@ -4,8 +4,8 @@ import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import LatestPosts from "../../../components/LatestPosts";
 import { PortableText } from "@portabletext/react";
-import Image from "next/image";
 import { urlFor } from "../../../sanity/lib/image";
+import SanityImage from "../../../components/SanityImage";
 
 interface SanityImageValue {
   _type: "image";
@@ -14,6 +14,9 @@ interface SanityImageValue {
     _type: "reference";
   };
   alt?: string;
+  caption?: string;
+  size?: "small" | "medium" | "large" | "full";
+  alignment?: "left" | "center" | "right";
   hotspot?: {
     x: number;
     y: number;
@@ -31,17 +34,59 @@ interface SanityImageValue {
 const components = {
   types: {
     image: ({ value }: { value: SanityImageValue }) => {
-      const imageUrl = urlFor(value)?.url();
+      if (!value?.asset) return null;
+
+      // Determine dimensions based on size setting
+      const sizeMap = {
+        small: { width: 400, height: 300 },
+        medium: { width: 600, height: 400 },
+        large: { width: 800, height: 500 },
+        full: { width: 1200, height: 600 },
+      };
+
+      const size = value.size || "large";
+      const dimensions = sizeMap[size];
+
+      // Determine alignment classes
+      const alignmentClass =
+        value.alignment === "left"
+          ? "mr-auto"
+          : value.alignment === "right"
+            ? "ml-auto"
+            : "mx-auto"; // center (default)
+
+      const imageUrl = urlFor(value)
+        ?.width(dimensions.width)
+        .height(dimensions.height)
+        .url();
       if (!imageUrl) return null;
 
       return (
-        <Image
-          src={imageUrl}
-          alt={value.alt || "Article image"}
-          width={800}
-          height={400}
-          className="rounded-lg my-6"
-        />
+        <figure className={`my-8 ${alignmentClass}`}>
+          <SanityImage
+            src={imageUrl}
+            alt={value.alt || "Article image"}
+            width={dimensions.width}
+            height={dimensions.height}
+            className={`rounded-lg ${size === "full" ? "w-full" : ""}`}
+            sizes={
+              size === "full"
+                ? "100vw"
+                : size === "large"
+                  ? "(max-width: 768px) 100vw, 800px"
+                  : size === "medium"
+                    ? "(max-width: 768px) 100vw, 600px"
+                    : "(max-width: 768px) 100vw, 400px"
+            }
+            priority={false}
+            objectFit="contain"
+          />
+          {value.caption && (
+            <figcaption className="text-sm text-gray-400 mt-2 text-center italic">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
       );
     },
   },
@@ -155,11 +200,13 @@ export default async function PostPage({ params }: PageProps) {
               <header className="relative mb-8">
                 {post.mainImage ? (
                   <div className="h-72 relative overflow-hidden rounded-xl">
-                    <Image
+                    <SanityImage
                       src={urlFor(post.mainImage)?.url() || ""}
                       alt={post.title}
                       fill
-                      className="object-cover"
+                      objectFit="cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
+                      priority={true}
                     />
                     <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-yellow-500/10"></div>
                   </div>

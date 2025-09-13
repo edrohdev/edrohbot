@@ -77,6 +77,51 @@ export const postType = defineType({
         {
           type: "image",
           options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative Text",
+              description: "Important for SEO and accessibility.",
+            },
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+              description: "Optional caption to display below the image.",
+            },
+            {
+              name: "size",
+              type: "string",
+              title: "Image Size",
+              description: "Choose how the image should be displayed",
+              options: {
+                list: [
+                  { title: "Small (400px)", value: "small" },
+                  { title: "Medium (600px)", value: "medium" },
+                  { title: "Large (800px)", value: "large" },
+                  { title: "Full Width (100%)", value: "full" },
+                ],
+                layout: "radio",
+              },
+              initialValue: "large",
+            },
+            {
+              name: "alignment",
+              type: "string",
+              title: "Alignment",
+              description: "How to align the image",
+              options: {
+                list: [
+                  { title: "Left", value: "left" },
+                  { title: "Center", value: "center" },
+                  { title: "Right", value: "right" },
+                ],
+                layout: "radio",
+              },
+              initialValue: "center",
+            },
+          ],
         },
       ],
     }),
