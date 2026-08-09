@@ -154,6 +154,14 @@ export const postType = defineType({
         maxLength: 96,
       },
     }),
+    defineField({
+      name: "automationPostId",
+      type: "string",
+      title: "Automation Post ID",
+      readOnly: true,
+      description:
+        "Set by the blog webhook; links this post to the automation platform.",
+    }),
   ],
   preview: {
     select: {
