@@ -10,8 +10,8 @@ export default function Hero() {
       </p>
       <div className="flex justify-center gap-6 mt-3 text-sm text-yellow-500/80 font-medium">
         <span>🤖 Robotics News</span>
-        <span>🚁 Drone Technology</span>
-        <span>⚙️ Automation</span>
+        <span>🚁 Drone Tech</span>
+        <span>⚙️ AI & Automation</span>
         <span>📅 Industry Events</span>
       </div>
     </section>
